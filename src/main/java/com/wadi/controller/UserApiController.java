@@ -3,24 +3,22 @@ package com.wadi.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wadi.bo.addBookBo;
+import com.wadi.dto.AddBookDto;
 import com.wadi.dto.UserDto;
 import com.wadi.response.UserResponse;
 import com.wadi.service.UserServiceInterface;
+import com.wadi.service.addBooksServiceInt;
 import com.wadi.vo.UserVo;
 
 @RestController
@@ -28,6 +26,8 @@ public class UserApiController {
 
 	@Autowired
 	private UserServiceInterface service;
+	@Autowired
+	private addBooksServiceInt bookService;
 
 	@PostMapping("/adduser")
 	public UserResponse registerUser(@RequestBody UserVo vo) {
@@ -94,6 +94,25 @@ public class UserApiController {
 		String resdto = service.DeleteUserById(id);
 
 		return resdto;
+
+	}
+
+	@PutMapping("/user/{userId}/favorite/{url}")
+	public UserResponse addfavorite(@PathVariable(value = "userId") String id, @PathVariable(value = "url") long url) {
+
+		AddBookDto dto = bookService.findBookByid(url);
+		addBookBo bo = new addBookBo();
+
+		BeanUtils.copyProperties(dto, bo);
+
+		UserDto resdto = service.findUserById(id);
+		resdto.getAddBookBo().add(bo);
+
+		UserDto uservalue = service.registerService(resdto);
+
+		UserResponse resValue = new UserResponse();
+		BeanUtils.copyProperties(uservalue, resValue);
+		return resValue;
 
 	}
 

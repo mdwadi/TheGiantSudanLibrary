@@ -1,6 +1,9 @@
 package com.wadi.dto;
 
 import java.io.Serializable;
+import java.util.Set;
+
+import com.wadi.bo.addBookBo;
 
 public class UserDto implements Serializable {
 	private static final long serialVersionUID = 2184987153467588527L;
@@ -13,7 +16,7 @@ public class UserDto implements Serializable {
 	private String encryptpassword;
 	private String emailVerificationTokent;
 	private Boolean emailVerificationStatus = false;
-
+	private Set<addBookBo> addBookBo;
 	public long getId() {
 		return id;
 	}
@@ -84,6 +87,14 @@ public class UserDto implements Serializable {
 
 	public void setEmailVerificationStatus(Boolean emailVerificationStatus) {
 		this.emailVerificationStatus = emailVerificationStatus;
+	}
+
+	public Set<addBookBo> getAddBookBo() {
+		return addBookBo;
+	}
+
+	public void setAddBookBo(Set<addBookBo> addBookBo) {
+		this.addBookBo = addBookBo;
 	}
 
 }

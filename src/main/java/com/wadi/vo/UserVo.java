@@ -1,11 +1,16 @@
 package com.wadi.vo;
 
+import java.util.Set;
+
+import com.wadi.bo.addBookBo;
+
 public class UserVo {
 	
 	private String fname;
 	private String lname;
 	private String email;
 	private String password;
+	private Set<addBookBo> addBookBo;
 
 	public String getFname() {
 		return fname;
@@ -37,6 +42,14 @@ public class UserVo {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Set<addBookBo> getAddBookBo() {
+		return addBookBo;
+	}
+
+	public void setAddBookBo(Set<addBookBo> addBookBo) {
+		this.addBookBo = addBookBo;
 	}
 	
 	

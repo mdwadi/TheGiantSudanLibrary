@@ -1,11 +1,14 @@
 package com.wadi.bo;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity(name = "users")
 public class UserBo implements Serializable {
@@ -21,11 +24,11 @@ public class UserBo implements Serializable {
 
 	@Column(nullable = false, length = 50)
 	private String fname;
-	
+
 	@Column(nullable = false, length = 50)
 	private String lname;
 
-	@Column(nullable = false, length =50)
+	@Column(nullable = false, length = 50)
 	private String email;
 
 	@Column(nullable = false)
@@ -34,7 +37,10 @@ public class UserBo implements Serializable {
 	private String emailVerificationTokent;
 
 	@Column(nullable = false)
-	private Boolean emailVerificationStatus=false;
+	private Boolean emailVerificationStatus = false;
+
+	@OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+	private Set<addBookBo> addBookBo;
 
 	public long getId() {
 		return id;
@@ -98,6 +104,14 @@ public class UserBo implements Serializable {
 
 	public void setEmailVerificationStatus(Boolean emailVerificationStatus) {
 		this.emailVerificationStatus = emailVerificationStatus;
+	}
+
+	public Set<addBookBo> getAddBookBo() {
+		return addBookBo;
+	}
+
+	public void setAddBookBo(Set<addBookBo> addBookBo) {
+		this.addBookBo = addBookBo;
 	}
 
 }
