@@ -7,10 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
-import org.springframework.web.multipart.MultipartFile;
-
 @Entity
-@Table(name = "addbook")
+@Table(name = "book")
 public class addBookBo {
 
 	@Id
@@ -27,9 +25,6 @@ public class addBookBo {
 
 	@Lob
 	private String discription;
-
-
-	
 
 	public long getId() {
 		return id;

@@ -1,7 +1,10 @@
 package com.wadi.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +15,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.wadi.bo.UserBo;
+import com.wadi.bo.addBookBo;
+import com.wadi.bo.favoriteBo;
 import com.wadi.dao.UserRepository;
+import com.wadi.dao.booksRepository;
+import com.wadi.dao.favoriteRepository;
+import com.wadi.dto.AddBookDto;
 import com.wadi.dto.UserDto;
 import com.wadi.share.Utils;
 
@@ -21,6 +29,12 @@ public class UserServiceImp implements UserServiceInterface {
 
 	@Autowired
 	private UserRepository repository;
+
+	@Autowired
+	private favoriteRepository favorite;
+
+	@Autowired
+	private booksRepository bookRepository;
 
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -74,7 +88,7 @@ public class UserServiceImp implements UserServiceInterface {
 		for (UserBo bo : bolist) {
 			UserDto dto = new UserDto();
 
-			dto.setId(bo.getId());
+			dto.setUserid(bo.getUserid());
 			dto.setFname(bo.getFname());
 			dto.setEmail(bo.getEmail());
 			dto.setPassword(bo.getEncryptpassword());
@@ -116,8 +130,67 @@ public class UserServiceImp implements UserServiceInterface {
 	@Override
 	public String DeleteUserById(String id) {
 		// TODO Auto-generated method stub
+
+		UserBo resbo = repository.deleteUserByUserId(id);
+
+		return "Success";
+	}
+
+	@Override
+	public favoriteBo SavefavoriteBook(String userId, long bookId) {
+
+		UserBo userBo = repository.findByUserId(userId);
+
+		addBookBo bookbo = bookRepository.findById(bookId);
+
+		favoriteBo fbo = new favoriteBo();
+
+		fbo.setUser(userBo);
+		fbo.setBook(bookbo);
+
+		favoriteBo resfbo = favorite.save(fbo);
+		return resfbo;
+	}
+
+	@Override
+	public List<AddBookDto> findfavorite(String userId) {
+		// TODO Auto-generated method stub
 		
-		UserBo resbo = repository.deleteUserById(id);
+		List<favoriteBo> resfbo = favorite.findByUserUserId(userId);
+		
+		
+		List<addBookBo> bookbo=new ArrayList<>();
+		
+		for(favoriteBo bo: resfbo)
+		{
+			addBookBo resbo=bo.getBook();
+			System.out.println(resbo.getId());
+			bookbo.add(resbo);
+		}
+		
+		
+		List<AddBookDto> bookdto=new ArrayList<>();
+		
+		for(addBookBo bo:bookbo)
+		{
+			AddBookDto dto=new AddBookDto();
+			
+			BeanUtils.copyProperties(bo, dto);
+			
+			bookdto.add(dto);
+		}
+		
+		
+		return bookdto;
+	}
+
+	@Override
+	public String deleteFavorite(String userId, long bookId) {
+		// TODO Auto-generated method stub
+
+		favoriteBo resfbo = favorite.findByBookIdAndUserUserId(bookId, userId);
+
+		favorite.delete(resfbo);
 
 		return "Success";
 	}

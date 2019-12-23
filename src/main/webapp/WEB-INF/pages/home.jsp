@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="ISO-8859-1"%>
-
+<!-- <meta charset="UTF-8"> -->
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -210,7 +210,7 @@ tr {
 					<a href="ReadBook?bookUrl=${dto.bookUrl}">Read</a>
 					<b><blink>----</blink></b>
 					<a href="DownloadBook?String=${dto.bookUrl}">download</a>
-
+					<br>
 					<br>
 					<br>
 				</tr>

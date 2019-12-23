@@ -1,25 +1,21 @@
 package com.wadi.bo;
 
 import java.io.Serializable;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity(name = "users")
 public class UserBo implements Serializable {
 
 	private static final long serialVersionUID = -5019069986703932725L;
 
-	@Id
+	/*@Id
 	@GeneratedValue
-	private long id;
+	private long id;*/
 
-	@Column(nullable = false)
+	@Id
 	private String userId;
 
 	@Column(nullable = false, length = 50)
@@ -39,16 +35,13 @@ public class UserBo implements Serializable {
 	@Column(nullable = false)
 	private Boolean emailVerificationStatus = false;
 
-	@OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
-	private Set<addBookBo> addBookBo;
-
-	public long getId() {
+	/*public long getId() {
 		return id;
-	}
+	}*/
 
-	public void setId(long id) {
+	/*public void setId(long id) {
 		this.id = id;
-	}
+	}*/
 
 	public String getUserid() {
 		return userId;
@@ -104,14 +97,6 @@ public class UserBo implements Serializable {
 
 	public void setEmailVerificationStatus(Boolean emailVerificationStatus) {
 		this.emailVerificationStatus = emailVerificationStatus;
-	}
-
-	public Set<addBookBo> getAddBookBo() {
-		return addBookBo;
-	}
-
-	public void setAddBookBo(Set<addBookBo> addBookBo) {
-		this.addBookBo = addBookBo;
 	}
 
 }

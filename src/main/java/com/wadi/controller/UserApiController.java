@@ -2,6 +2,7 @@ package com.wadi.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wadi.bo.addBookBo;
+import com.wadi.bo.favoriteBo;
 import com.wadi.dto.AddBookDto;
 import com.wadi.dto.UserDto;
+import com.wadi.response.BookVoResponse;
 import com.wadi.response.UserResponse;
 import com.wadi.service.UserServiceInterface;
 import com.wadi.service.addBooksServiceInt;
@@ -97,22 +99,42 @@ public class UserApiController {
 
 	}
 
-	@PutMapping("/user/{userId}/favorite/{url}")
-	public UserResponse addfavorite(@PathVariable(value = "userId") String id, @PathVariable(value = "url") long url) {
+	@PostMapping("/user/{userId}/book/{bookId}")
+	public favoriteBo addfavorite(@PathVariable(value = "userId") String userId,
+			@PathVariable(value = "bookId") long bookId) {
 
-		AddBookDto dto = bookService.findBookByid(url);
-		addBookBo bo = new addBookBo();
+		favoriteBo fbo = service.SavefavoriteBook(userId, bookId);
 
-		BeanUtils.copyProperties(dto, bo);
+		return fbo;
 
-		UserDto resdto = service.findUserById(id);
-		resdto.getAddBookBo().add(bo);
+	}
 
-		UserDto uservalue = service.registerService(resdto);
+	@GetMapping("/favorite/{userId}")
+	public List<BookVoResponse> findfavorite(@PathVariable String userId) {
+		
+		List<AddBookDto> listDto = service.findfavorite(userId);
 
-		UserResponse resValue = new UserResponse();
-		BeanUtils.copyProperties(uservalue, resValue);
-		return resValue;
+		List<BookVoResponse> listVo=new ArrayList<>();
+		
+		for(AddBookDto dto:listDto)
+		{
+			BookVoResponse resVo=new BookVoResponse();
+			BeanUtils.copyProperties(dto, resVo);
+			listVo.add(resVo);
+			
+		}
+		
+		
+		return listVo;
+	}
+
+	@DeleteMapping("/favorite/user/{userId}/book/{bookId}")
+	public String deleteFavorite(@PathVariable(value = "userId") String userId,
+			@PathVariable(value = "bookId") long bookId) {
+
+		String result = service.deleteFavorite(userId, bookId);
+
+		return result;
 
 	}
 
