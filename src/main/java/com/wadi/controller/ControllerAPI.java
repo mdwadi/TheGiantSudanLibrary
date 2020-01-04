@@ -10,6 +10,7 @@ import javax.websocket.server.PathParam;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ import com.wadi.file.UploadServiceInterface;
 import com.wadi.response.BookVoResponse;
 import com.wadi.service.addBooksServiceInt;
 import com.wadi.vo.AddBookVo;
-
+@CrossOrigin(maxAge = 3600)
 @RestController
 public class ControllerAPI {
 
@@ -59,6 +60,7 @@ public class ControllerAPI {
 
 	}
 
+	@CrossOrigin(maxAge = 3600)
 	@GetMapping("/bookList")
 	public List<BookVoResponse> getAllBook() {
 

@@ -1,11 +1,13 @@
 package com.wadi.controller;
 
+import java.awt.PageAttributes.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,7 @@ import com.wadi.service.UserServiceInterface;
 import com.wadi.service.addBooksServiceInt;
 import com.wadi.vo.UserVo;
 
+@CrossOrigin(maxAge = 3600)
 @RestController
 public class UserApiController {
 
@@ -45,7 +48,8 @@ public class UserApiController {
 		return resValue;
 	}
 
-	@GetMapping("/userlist")
+	@CrossOrigin(maxAge = 3600)
+	@GetMapping(path="/userlist", produces= {org.springframework.http.MediaType.APPLICATION_JSON_VALUE, org.springframework.http.MediaType.APPLICATION_XML_VALUE})
 	public List<UserResponse> getUsesList() {
 		List<UserDto> listDto = service.getAllUsers();
 
