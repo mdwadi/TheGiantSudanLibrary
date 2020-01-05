@@ -20,4 +20,5 @@ public interface UserServiceInterface extends UserDetailsService {
 	public List<AddBookDto> findfavorite(String userId);
 	public String deleteFavorite(String userId,long bookId);
 
+	public UserDto getUser(String email);
 }

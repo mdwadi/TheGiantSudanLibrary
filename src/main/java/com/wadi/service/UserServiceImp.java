@@ -195,4 +195,18 @@ public class UserServiceImp implements UserServiceInterface {
 		return "Success";
 	}
 
+	@Override
+	public UserDto getUser(String email) {
+		
+		UserBo bo = repository.findUserByEmail(email);
+		
+		if (bo == null)
+			throw new RuntimeException("Record dosen't exist");
+		
+		UserDto resdto = new UserDto();
+		BeanUtils.copyProperties(bo, resdto);
+
+		return resdto;
+	}
+
 }
