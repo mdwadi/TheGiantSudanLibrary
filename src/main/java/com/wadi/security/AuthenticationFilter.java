@@ -57,13 +57,13 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 		String token = Jwts.builder().setSubject(userName)
 				.setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
 				.signWith(SignatureAlgorithm.HS512, SecurityConstants.TOKEN_SECRET).compact();
-		
-		UserServiceInterface userService=(UserServiceInterface) SpringApplicationContext.getBean("userServiceImp");
- 
-		UserDto dto=userService.getUser(userName);
+
+		UserServiceInterface userService = (UserServiceInterface) SpringApplicationContext.getBean("userServiceImp");
+
+		UserDto dto = userService.getUser(userName);
 		res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
 
-		res.addHeader("UserId",dto.getUserid());
+		res.addHeader("UserId", dto.getUserid());
 	}
 
 }

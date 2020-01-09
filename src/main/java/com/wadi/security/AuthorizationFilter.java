@@ -19,17 +19,15 @@ public final class AuthorizationFilter extends BasicAuthenticationFilter{
 
 	public AuthorizationFilter(AuthenticationManager authenticationManager) {
 		super(authenticationManager);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		// TODO Auto-generated method stub
 		
 		String header=req.getHeader(SecurityConstants.HEADER_STRING);
 		
-		if(header==null || header.startsWith(SecurityConstants.TOKEN_PREFIX))
+		if(header==null || !header.startsWith(SecurityConstants.TOKEN_PREFIX))
 		{
 			chain.doFilter(req, res);
 			return;
@@ -42,13 +40,12 @@ public final class AuthorizationFilter extends BasicAuthenticationFilter{
 	}
 
 	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {
-		// TODO Auto-generated method stub
-		
+
 		String token=req.getHeader(SecurityConstants.HEADER_STRING);
 		
 		if(token !=null)
 		{
-			token=token.replace(SecurityConstants.TOKEN_PREFIX, "");
+			token=token.replace(SecurityConstants.TOKEN_PREFIX,"");
 			
 			String user=Jwts.parser()
 					.setSigningKey(SecurityConstants.TOKEN_SECRET)

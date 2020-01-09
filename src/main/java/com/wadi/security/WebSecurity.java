@@ -2,12 +2,16 @@ package com.wadi.security;
 
 import java.security.Signature;
 
+import javax.servlet.Filter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -31,16 +35,29 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests()
-		.antMatchers(HttpMethod.POST,SecurityConstants.SIGN_UP_URL).permitAll()
-		.anyRequest()
-		.authenticated()
+		.antMatchers(HttpMethod.POST,SecurityConstants.SIGN_UP_URL)
+		.permitAll()
+		.anyRequest().authenticated()
 		.and()
-		.addFilter(new AuthenticationFilter(authenticationManager()))
-		.addFilter(new AuthorizationFilter(authenticationManager()));
+		.addFilter(getAuthenticationFilter())
+		.addFilter(new AuthorizationFilter(authenticationManager()))
+		.sessionManagement()
+		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
+	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+	}
+	
+	private AuthenticationFilter getAuthenticationFilter() throws Exception {
+		
+		final AuthenticationFilter filter=new AuthenticationFilter(authenticationManager());
+		
+		filter.setFilterProcessesUrl("/user/login");
+		
+		return filter;
 	}
 	
 }

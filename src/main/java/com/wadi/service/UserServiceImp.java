@@ -122,7 +122,7 @@ public class UserServiceImp implements UserServiceInterface {
 
 		UserDto resdto = new UserDto();
 
-		BeanUtils.copyProperties(resdto, resbo);
+		BeanUtils.copyProperties(resbo, resdto);
 
 		return resdto;
 	}

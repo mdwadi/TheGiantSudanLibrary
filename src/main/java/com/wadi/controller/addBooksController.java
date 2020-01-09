@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,7 @@ import com.wadi.response.BookVoResponse;
 import com.wadi.service.addBooksServiceInt;
 import com.wadi.vo.AddBookVo;
 
+@CrossOrigin(maxAge = 3600)
 @Controller
 public class addBooksController {
 
@@ -48,6 +50,7 @@ public class addBooksController {
 	private static final String Uploadpath = "books";
 	private static final String imageUploadpath = "books/bookImages";
 
+	@CrossOrigin(maxAge = 3600)
 	@GetMapping("/AddBook")
 	public String AddBook(@ModelAttribute("addfrm") AddBookVo vo, BindingResult result, Model model) {
 
@@ -56,6 +59,7 @@ public class addBooksController {
 		return "AddBook";
 	}
 
+	@CrossOrigin(maxAge = 3600)
 	@PostMapping("/AddBook")
 	public BookVoResponse AddBookOperation(@ModelAttribute("addfrm") AddBookVo vo,
 			@RequestParam("book") MultipartFile book, @RequestParam("image") MultipartFile image, BindingResult result,
@@ -74,6 +78,7 @@ public class addBooksController {
 		return resVo;
 	}
 
+	@CrossOrigin(maxAge = 3600)
 	@PostMapping("/Edit")
 	public String addEdit(@ModelAttribute("addbookfrm") AddBookDto bookDto) {
 		AddBookDto dto = new AddBookDto();
@@ -92,6 +97,7 @@ public class addBooksController {
 
 	}
 
+	@CrossOrigin(maxAge = 3600)
 	@GetMapping("/EditBook")
 	public String EditBook(@ModelAttribute("addbookfrm") AddBookDto bookDto, HttpServletRequest req,
 			HttpSession session) {
@@ -109,6 +115,7 @@ public class addBooksController {
 
 	}
 
+	@CrossOrigin(maxAge = 3600)
 	@PostMapping("/EditBook")
 	public String saveEditBook(@ModelAttribute("addbookfrm") AddBookDto bookDto) {
 
@@ -123,6 +130,7 @@ public class addBooksController {
 
 	}
 
+	@CrossOrigin(maxAge = 3600)
 	@GetMapping("/ReadBook")
 	public String ReadBook(HttpServletRequest req, HttpSession session) throws IOException {
 
@@ -134,7 +142,7 @@ public class addBooksController {
 		return "pdfViewer";
 
 	}
-
+	@CrossOrigin(maxAge = 3600)
 	@GetMapping("/DownloadBook")
 	public String DownloadBook(HttpServletRequest req, HttpSession session) throws IOException {
 
