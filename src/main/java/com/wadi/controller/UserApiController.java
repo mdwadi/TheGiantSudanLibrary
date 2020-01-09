@@ -25,7 +25,7 @@ import com.wadi.service.UserServiceInterface;
 import com.wadi.service.addBooksServiceInt;
 import com.wadi.vo.UserVo;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class UserApiController {
 
@@ -35,7 +35,6 @@ public class UserApiController {
 	private addBooksServiceInt bookService;
 	
 	
-	@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 	@PostMapping("/adduser")
 	public UserResponse registerUser(@RequestBody UserVo vo) {
 
@@ -50,7 +49,6 @@ public class UserApiController {
 		return resValue;
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 	@GetMapping(path="/userlist", produces= {org.springframework.http.MediaType.APPLICATION_JSON_VALUE, org.springframework.http.MediaType.APPLICATION_XML_VALUE})
 	public List<UserResponse> getUsesList() {
 		List<UserDto> listDto = service.getAllUsers();
@@ -67,7 +65,6 @@ public class UserApiController {
 
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 	@GetMapping("/user/{id}")
 	public UserResponse getUsesById(@PathVariable String id) {
 
@@ -81,7 +78,6 @@ public class UserApiController {
 
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200" ,maxAge = 3600)
 	@PutMapping("/modifyUser/{id}")
 	public UserResponse modifyUser(@PathVariable String id, @RequestBody UserVo vo) {
 
@@ -98,7 +94,6 @@ public class UserApiController {
 
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200" ,maxAge = 3600)
 	@DeleteMapping("/delete/{id}")
 	public String DeleteUser(@PathVariable String id) {
 
@@ -108,7 +103,6 @@ public class UserApiController {
 
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200" ,maxAge = 3600)
 	@PostMapping("/user/{userId}/book/{bookId}")
 	public favoriteBo addfavorite(@PathVariable(value = "userId") String userId,
 			@PathVariable(value = "bookId") long bookId) {
@@ -119,7 +113,6 @@ public class UserApiController {
 
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200" ,maxAge = 3600)
 	@GetMapping("/favorite/{userId}")
 	public List<BookVoResponse> findfavorite(@PathVariable String userId) {
 		
@@ -139,7 +132,6 @@ public class UserApiController {
 		return listVo;
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200" ,maxAge = 3600)
 	@DeleteMapping("/favorite/user/{userId}/book/{bookId}")
 	public String deleteFavorite(@PathVariable(value = "userId") String userId,
 			@PathVariable(value = "bookId") long bookId) {

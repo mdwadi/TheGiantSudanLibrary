@@ -37,7 +37,7 @@ import com.wadi.response.BookVoResponse;
 import com.wadi.service.addBooksServiceInt;
 import com.wadi.vo.AddBookVo;
 
-@CrossOrigin(maxAge = 3600)
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Controller
 public class addBooksController {
 

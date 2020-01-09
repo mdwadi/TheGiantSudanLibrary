@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.wadi.dto.AddBookDto;
 import com.wadi.service.addBooksServiceInt;
 
-@CrossOrigin(maxAge = 3600)
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Controller
 public class WelecomeController {
 
 	@Autowired
 	private addBooksServiceInt booksServiece;
 
-	@CrossOrigin(maxAge = 3600)
 	@PostMapping("searchbook")
 	public String searchBook(@ModelAttribute("searchfrm") AddBookDto bookDto) {
 		System.out.println("WelecomeController.searchBook()");

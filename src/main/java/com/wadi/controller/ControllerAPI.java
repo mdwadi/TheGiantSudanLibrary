@@ -25,7 +25,7 @@ import com.wadi.response.BookVoResponse;
 import com.wadi.service.addBooksServiceInt;
 import com.wadi.vo.AddBookVo;
 
-@CrossOrigin(maxAge = 3600)
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class ControllerAPI {
 
@@ -35,7 +35,6 @@ public class ControllerAPI {
 	@Autowired
 	private UploadServiceInterface upload;
 
-	@CrossOrigin(maxAge = 3600)
 	@PostMapping("/addBook")
 	public BookVoResponse AddBook(@RequestBody AddBookVo vo) throws IOException {
 		AddBookDto dto = new AddBookDto();
@@ -50,7 +49,6 @@ public class ControllerAPI {
 
 	}
 
-	@CrossOrigin(maxAge = 3600)
 	@GetMapping(path = "/findbook/{id}")
 	public BookVoResponse findBook(@PathVariable long id) {
 		AddBookDto dto = Service.findBookByid(id);
@@ -63,7 +61,6 @@ public class ControllerAPI {
 
 	}
 
-	@CrossOrigin(maxAge = 3600)
 	@GetMapping("/bookList")
 	public List<BookVoResponse> getAllBook() {
 
@@ -83,7 +80,6 @@ public class ControllerAPI {
 
 	}
 
-	@CrossOrigin(maxAge = 3600)
 	@PutMapping("/editBook/{id}")
 	public BookVoResponse editBook(@PathVariable long id, @RequestBody AddBookVo vo) throws IOException {
 
@@ -106,7 +102,6 @@ public class ControllerAPI {
 
 	}
 	
-	@CrossOrigin(maxAge = 3600)
 	@DeleteMapping("/deletBook/{id}")
 	public String DeleteBook(@PathVariable long id) {
 
@@ -128,7 +123,6 @@ public class ControllerAPI {
 
 	}
 
-	@CrossOrigin(maxAge = 3600)
 	@GetMapping("/downloadBook/{String}")
 	public String DownloadBook(@PathVariable String bookUrl, HttpServletRequest req, HttpSession session)
 			throws IOException {
