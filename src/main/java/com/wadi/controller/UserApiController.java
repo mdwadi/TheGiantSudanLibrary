@@ -25,7 +25,7 @@ import com.wadi.service.UserServiceInterface;
 import com.wadi.service.addBooksServiceInt;
 import com.wadi.vo.UserVo;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+
 @RestController
 public class UserApiController {
 

@@ -25,7 +25,6 @@ import com.wadi.response.BookVoResponse;
 import com.wadi.service.addBooksServiceInt;
 import com.wadi.vo.AddBookVo;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class ControllerAPI {
 

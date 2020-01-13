@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.wadi.dto.AddBookDto;
 import com.wadi.service.addBooksServiceInt;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+
 @Controller
 public class WelecomeController {
 
@@ -39,14 +39,12 @@ public class WelecomeController {
 		return "home";
 	}
 
-	@CrossOrigin(maxAge = 3600)
 	@GetMapping("/aboutUs")
 	public String aboutUs() {
 
 		return "aboutUs";
 	}
 
-	@CrossOrigin(maxAge = 3600)
 	@GetMapping("/listBook")
 	public String BookList(Model model) {
 
@@ -57,7 +55,6 @@ public class WelecomeController {
 		return "bookList";
 	}
 
-	@CrossOrigin(maxAge = 3600)
 	@GetMapping("/stories")
 	public String SoriesPage() {
 
