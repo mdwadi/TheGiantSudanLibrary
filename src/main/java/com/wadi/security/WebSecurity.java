@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.wadi.service.UserServiceInterface;
 
@@ -34,17 +35,16 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().disable().csrf().disable().authorizeRequests()
-		.antMatchers(HttpMethod.GET,"bookList").permitAll()
+		http.cors().and().authorizeRequests()
+		.antMatchers(HttpMethod.GET,"/bookList").permitAll()
 		.antMatchers(HttpMethod.POST,SecurityConstants.SIGN_UP_URL).permitAll()
-		.antMatchers(HttpMethod.OPTIONS,"/**")
-		.permitAll()
 		.anyRequest().authenticated()
 		.and()
 		.addFilter(getAuthenticationFilter())
 		.addFilter(new AuthorizationFilter(authenticationManager()))
 		.sessionManagement()
-		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		.and().csrf().disable();
 	}
 	
 
@@ -52,7 +52,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
 	}
-	
+
 	private AuthenticationFilter getAuthenticationFilter() throws Exception {
 		
 		final AuthenticationFilter filter=new AuthenticationFilter(authenticationManager());

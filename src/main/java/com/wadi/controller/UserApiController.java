@@ -25,7 +25,6 @@ import com.wadi.service.UserServiceInterface;
 import com.wadi.service.addBooksServiceInt;
 import com.wadi.vo.UserVo;
 
-
 @RestController
 public class UserApiController {
 
