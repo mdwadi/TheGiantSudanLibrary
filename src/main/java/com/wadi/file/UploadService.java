@@ -7,18 +7,21 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.wadi.bo.Category;
+import com.wadi.bo.addBookBo;
 import com.wadi.dto.AddBookDto;
 
-@Component
+@Service
 public class UploadService implements UploadServiceInterface {
 
 	private static final String Uploadpath = "books";
@@ -32,8 +35,13 @@ public class UploadService implements UploadServiceInterface {
 		OutputStream os1, os2;
 		String title = null;
 
-		title = dto.getTitle().trim().concat(" by " + dto.getAuthor().trim());
+		if (dto.getAuthor().getNameAr() == null) {
+			title = dto.getTitle().trim().concat(" by " + dto.getAuthor().getNameAr().trim());
 
+		} else {
+			title = dto.getTitle().trim().concat(" by " + dto.getAuthor().getNameEn().trim());
+
+		}
 		dto.setBookUrl(title);
 		dto.setImageUrl(title);
 
@@ -175,6 +183,59 @@ public class UploadService implements UploadServiceInterface {
 
 		uploadImageDir.renameTo(RImageDir);
 		uploadFileDir.renameTo(RFileDir);
+
+	}
+
+	@Override
+	public List<AddBookDto> findListimage(List<addBookBo> listBo) throws IOException {
+		// TODO Auto-generated method stub
+
+		File uploadFileDir, uploadImageDir;
+
+		FileInputStream fileInputStream = null;
+
+		List<AddBookDto> dtoList = new ArrayList<>();
+
+		Set<Category> setCategory = new HashSet<>();
+
+		System.out.println("UploadService.findListimage()");
+
+		for (addBookBo bo : listBo) {
+
+			AddBookDto dto = new AddBookDto();
+
+			BeanUtils.copyProperties(bo, dto);
+
+			System.out.println("UploadService.findListimage()-------" + bo.getAuthor());
+
+			uploadImageDir = new File(imageUploadpath + "/" + dto.getImageUrl() + ".jpg");
+
+			if (uploadImageDir.exists()) {
+
+				byte[] buffer = getBytesFromFile(uploadImageDir);
+				// System.out.println(bo.getTitle()+"====b===" + buffer);
+				dto.setImgeContent(buffer);
+
+			}
+
+			System.out.println(dto.getTitle() + "====dto===" + dto.getImgeContent());
+			dtoList.add(dto);
+
+		}
+
+		return dtoList;
+	}
+
+	private byte[] getBytesFromFile(File file) throws FileNotFoundException, IOException {
+
+		FileInputStream fileInputStream = null;
+
+		byte[] buffer = new byte[(int) file.length()];
+		fileInputStream = new FileInputStream(file);
+		// covert the byte stream into the byte[]
+		fileInputStream.read(buffer);
+
+		return buffer;
 
 	}
 

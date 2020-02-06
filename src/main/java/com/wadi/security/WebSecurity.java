@@ -37,6 +37,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().authorizeRequests()
 		.antMatchers(HttpMethod.GET,"/bookList").permitAll()
+		.antMatchers(HttpMethod.GET,"/AddBook").permitAll()
+		.antMatchers(HttpMethod.POST,"/AddBook").permitAll()
 		.antMatchers(HttpMethod.POST,SecurityConstants.SIGN_UP_URL).permitAll()
 		.anyRequest().authenticated()
 		.and()

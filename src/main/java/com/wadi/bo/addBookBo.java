@@ -1,14 +1,17 @@
 package com.wadi.bo;
-
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-@Table(name = "book")
+@Table(name = "storage")
 public class addBookBo {
 
 	@Id
@@ -21,7 +24,13 @@ public class addBookBo {
 
 	private String bookUrl;
 
-	private String author;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JsonIgnore
+	private Category category;
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JsonIgnore
+	private Author author;
 
 	@Lob
 	private String discription;
@@ -58,11 +67,11 @@ public class addBookBo {
 		this.bookUrl = bookUrl;
 	}
 
-	public String getAuthor() {
+	public Author getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(String author) {
+	public void setAuthor(Author author) {
 		this.author = author;
 	}
 
@@ -72,6 +81,14 @@ public class addBookBo {
 
 	public void setDiscription(String discription) {
 		this.discription = discription;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 }

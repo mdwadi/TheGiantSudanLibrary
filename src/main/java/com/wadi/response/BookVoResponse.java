@@ -1,9 +1,10 @@
 package com.wadi.response;
 
-import org.springframework.web.multipart.MultipartFile;
+import com.wadi.bo.Author;
+import com.wadi.bo.Category;
 
 public class BookVoResponse {
-	
+
 	private long id;
 
 	private String title;
@@ -12,9 +13,13 @@ public class BookVoResponse {
 
 	private String bookUrl;
 
-	private String author;
-	
+	private Author author;
+
+	private Category category;
+
 	private String discription;
+
+	private byte[] imgeContent;
 
 	public long getId() {
 		return id;
@@ -48,11 +53,11 @@ public class BookVoResponse {
 		this.bookUrl = bookUrl;
 	}
 
-	public String getAuthor() {
+	public Author getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(String author) {
+	public void setAuthor(Author author) {
 		this.author = author;
 	}
 
@@ -63,7 +68,21 @@ public class BookVoResponse {
 	public void setDiscription(String discription) {
 		this.discription = discription;
 	}
-	
-	
+
+	public byte[] getImgeContent() {
+		return imgeContent;
+	}
+
+	public void setImgeContent(byte[] imgeContent) {
+		this.imgeContent = imgeContent;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
 }

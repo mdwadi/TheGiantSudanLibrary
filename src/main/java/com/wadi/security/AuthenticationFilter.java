@@ -47,6 +47,14 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	/*
+	 * private static Collection<? extends GrantedAuthority> getAuthorities(UserBo
+	 * user) { String[] userRoles = user.getRoles().stream().map((role) ->
+	 * role.getRole()).toArray(String[]::new); Collection<GrantedAuthority>
+	 * authorities = AuthorityUtils.createAuthorityList(userRoles); return
+	 * authorities; }
+	 */
 
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,

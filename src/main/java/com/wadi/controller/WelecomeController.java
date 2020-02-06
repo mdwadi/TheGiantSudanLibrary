@@ -1,5 +1,6 @@
 package com.wadi.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class WelecomeController {
 	}
 
 	@GetMapping("/home")
-	public String welecome(Model model) {
+	public String welecome(Model model) throws IOException {
 
 		// List<AddBookDto> Listdto = booksServiece.listOfBook();
 
@@ -45,7 +46,7 @@ public class WelecomeController {
 	}
 
 	@GetMapping("/listBook")
-	public String BookList(Model model) {
+	public String BookList(Model model) throws IOException {
 
 		List<AddBookDto> listDto = booksServiece.listOfBook();
 

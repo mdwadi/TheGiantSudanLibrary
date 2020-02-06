@@ -1,8 +1,12 @@
 package com.wadi.file;
 
 import java.io.IOException;
+import java.util.Set;
 
+import com.wadi.bo.addBookBo;
 import com.wadi.dto.AddBookDto;
+import java.util.List;
+
 
 public interface UploadServiceInterface {
 
@@ -15,5 +19,7 @@ public interface UploadServiceInterface {
 	public String deleteUrl(String fileUrl) throws IOException;
 
 	public void editFile(String oldUrl, String newUrl);
+
+	public List<AddBookDto> findListimage(List<addBookBo> listBo) throws IOException;
 
 }

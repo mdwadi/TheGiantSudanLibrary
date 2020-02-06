@@ -1,22 +1,26 @@
 package com.wadi.service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.wadi.bo.Role;
 import com.wadi.bo.UserBo;
 import com.wadi.bo.addBookBo;
 import com.wadi.bo.favoriteBo;
+import com.wadi.dao.AuthorRepository;
+import com.wadi.dao.RoleRepository;
 import com.wadi.dao.UserRepository;
 import com.wadi.dao.booksRepository;
 import com.wadi.dao.favoriteRepository;
@@ -35,6 +39,12 @@ public class UserServiceImp implements UserServiceInterface {
 
 	@Autowired
 	private booksRepository bookRepository;
+
+	@Autowired
+	private RoleRepository roleRepository;
+
+	@Autowired
+	private AuthorRepository author;
 
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -57,7 +67,7 @@ public class UserServiceImp implements UserServiceInterface {
 		String publicUserId = util.generateUserId(30);
 
 		bo.setUserid(publicUserId);
-
+		bo.setRoles(Arrays.asList(roleRepository.findByRole("ROLE_USER")));
 		bo = repository.save(bo);
 
 		UserDto userdto = new UserDto();
@@ -74,7 +84,13 @@ public class UserServiceImp implements UserServiceInterface {
 		if (userBo == null)
 			throw new UsernameNotFoundException(email);
 
-		return new User(userBo.getEmail(), userBo.getEncryptpassword(), new ArrayList<>());
+		return new User(userBo.getEmail(), userBo.getEncryptpassword(), getAuthorities(userBo));
+	}
+
+	private static Collection<? extends GrantedAuthority> getAuthorities(UserBo user) {
+		String[] userRoles = user.getRoles().stream().map((role) -> role.getRole()).toArray(String[]::new);
+		Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
+		return authorities;
 	}
 
 	@Override
@@ -155,32 +171,27 @@ public class UserServiceImp implements UserServiceInterface {
 	@Override
 	public List<AddBookDto> findfavorite(String userId) {
 		// TODO Auto-generated method stub
-		
+
 		List<favoriteBo> resfbo = favorite.findByUserUserId(userId);
-		
-		
-		List<addBookBo> bookbo=new ArrayList<>();
-		
-		for(favoriteBo bo: resfbo)
-		{
-			addBookBo resbo=bo.getBook();
+
+		List<addBookBo> bookbo = new ArrayList<>();
+
+		for (favoriteBo bo : resfbo) {
+			addBookBo resbo = bo.getBook();
 			System.out.println(resbo.getId());
 			bookbo.add(resbo);
 		}
-		
-		
-		List<AddBookDto> bookdto=new ArrayList<>();
-		
-		for(addBookBo bo:bookbo)
-		{
-			AddBookDto dto=new AddBookDto();
-			
+
+		List<AddBookDto> bookdto = new ArrayList<>();
+
+		for (addBookBo bo : bookbo) {
+			AddBookDto dto = new AddBookDto();
+
 			BeanUtils.copyProperties(bo, dto);
-			
+
 			bookdto.add(dto);
 		}
-		
-		
+
 		return bookdto;
 	}
 
@@ -197,16 +208,42 @@ public class UserServiceImp implements UserServiceInterface {
 
 	@Override
 	public UserDto getUser(String email) {
-		
+
 		UserBo bo = repository.findUserByEmail(email);
-		
+
 		if (bo == null)
 			throw new RuntimeException("Record dosen't exist");
-		
+
 		UserDto resdto = new UserDto();
 		BeanUtils.copyProperties(bo, resdto);
 
 		return resdto;
+	}
+
+	@Override
+	public Role addRole(Role role) {
+
+		Role bo = roleRepository.save(role);
+
+		return bo;
+	}
+
+	@Override
+	public Role DeleteRole(int id) {
+
+		Role bo = roleRepository.findById(id);
+		
+		roleRepository.delete(bo);
+		
+		return bo;
+	}
+
+	@Override
+	public List<Role> getRole() {
+
+		List<Role> bo = roleRepository.findAll();
+		// TODO Auto-generated method stub
+		return bo;
 	}
 
 }

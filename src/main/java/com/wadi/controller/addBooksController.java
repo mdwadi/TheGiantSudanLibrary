@@ -1,36 +1,21 @@
 package com.wadi.controller;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.Blob;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.wadi.bo.addBookBo;
-import com.wadi.dao.booksRepository;
 import com.wadi.dto.AddBookDto;
 import com.wadi.file.UploadServiceInterface;
 import com.wadi.response.BookVoResponse;
@@ -65,8 +50,8 @@ public class addBooksController {
 		AddBookDto dto = new AddBookDto();
 		BeanUtils.copyProperties(vo, dto);
 
-		dto.setBook(book);
-		dto.setImage(image);
+		//dto.setBook(book);
+		//dto.setImage(image);
 		AddBookDto resDto = booksServiece.addBookService(dto);
 
 		BookVoResponse resVo = new BookVoResponse();
@@ -109,7 +94,7 @@ public class addBooksController {
 		return "edit-book";
 
 	}
-	
+
 	@PostMapping("/EditBook")
 	public String saveEditBook(@ModelAttribute("addbookfrm") AddBookDto bookDto) {
 
@@ -135,7 +120,7 @@ public class addBooksController {
 		return "pdfViewer";
 
 	}
-	
+
 	@GetMapping("/DownloadBook")
 	public String DownloadBook(HttpServletRequest req, HttpSession session) throws IOException {
 

@@ -1,19 +1,26 @@
 package com.wadi.bo;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
-@Entity(name = "users")
+@Entity(name = "authentication")
 public class UserBo implements Serializable {
 
 	private static final long serialVersionUID = -5019069986703932725L;
 
-	/*@Id
-	@GeneratedValue
-	private long id;*/
+	/*
+	 * @Id
+	 * 
+	 * @GeneratedValue private long id;
+	 */
 
 	@Id
 	private String userId;
@@ -35,13 +42,19 @@ public class UserBo implements Serializable {
 	@Column(nullable = false)
 	private Boolean emailVerificationStatus = false;
 
-	/*public long getId() {
-		return id;
-	}*/
+	@ManyToMany(cascade = CascadeType.MERGE)
+	@JoinTable(name = "UserBo_Role", joinColumns = {
+			@JoinColumn(name = "UserBo_userId", referencedColumnName = "userId") }, inverseJoinColumns = {
+					@JoinColumn(name = "ROLE_id", referencedColumnName = "id") })
+	private List<Role> roles;
 
-	/*public void setId(long id) {
-		this.id = id;
-	}*/
+	/*
+	 * public long getId() { return id; }
+	 */
+
+	/*
+	 * public void setId(long id) { this.id = id; }
+	 */
 
 	public String getUserid() {
 		return userId;
@@ -97,6 +110,22 @@ public class UserBo implements Serializable {
 
 	public void setEmailVerificationStatus(Boolean emailVerificationStatus) {
 		this.emailVerificationStatus = emailVerificationStatus;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 }

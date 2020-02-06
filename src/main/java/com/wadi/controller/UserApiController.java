@@ -1,13 +1,10 @@
 package com.wadi.controller;
 
-import java.awt.PageAttributes.MediaType;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wadi.bo.Role;
 import com.wadi.bo.favoriteBo;
 import com.wadi.dto.AddBookDto;
 import com.wadi.dto.UserDto;
@@ -32,8 +30,7 @@ public class UserApiController {
 	private UserServiceInterface service;
 	@Autowired
 	private addBooksServiceInt bookService;
-	
-	
+
 	@PostMapping("/adduser")
 	public UserResponse registerUser(@RequestBody UserVo vo) {
 
@@ -48,7 +45,11 @@ public class UserApiController {
 		return resValue;
 	}
 
-	@GetMapping(path="/userlist", produces= {org.springframework.http.MediaType.APPLICATION_JSON_VALUE, org.springframework.http.MediaType.APPLICATION_XML_VALUE})
+	@GetMapping(path = "/userlist", produces = {
+			org.springframework.http.MediaType.APPLICATION_JSON_VALUE/*
+																		 * , org.springframework.http.MediaType.
+																		 * APPLICATION_XML_VALUE
+																		 */ })
 	public List<UserResponse> getUsesList() {
 		List<UserDto> listDto = service.getAllUsers();
 
@@ -114,20 +115,18 @@ public class UserApiController {
 
 	@GetMapping("/favorite/{userId}")
 	public List<BookVoResponse> findfavorite(@PathVariable String userId) {
-		
+
 		List<AddBookDto> listDto = service.findfavorite(userId);
 
-		List<BookVoResponse> listVo=new ArrayList<>();
-		
-		for(AddBookDto dto:listDto)
-		{
-			BookVoResponse resVo=new BookVoResponse();
+		List<BookVoResponse> listVo = new ArrayList<>();
+
+		for (AddBookDto dto : listDto) {
+			BookVoResponse resVo = new BookVoResponse();
 			BeanUtils.copyProperties(dto, resVo);
 			listVo.add(resVo);
-			
+
 		}
-		
-		
+
 		return listVo;
 	}
 
@@ -138,6 +137,34 @@ public class UserApiController {
 		String result = service.deleteFavorite(userId, bookId);
 
 		return result;
+
+	}
+
+	@PostMapping("/addRole")
+	public Role addRole(@RequestBody Role role) {
+
+		Role res = service.addRole(role);
+
+		return res;
+
+	}
+
+	@GetMapping("/getRoles")
+	public List<Role> getRole() {
+
+		List<Role> res = service.getRole();
+
+		return res;
+
+	}
+
+	@DeleteMapping("/deleteRole/{id}")
+	public Role deleteRole(@PathVariable int id) {
+
+		System.out.println("UserApiController.deleteRole()"+id);
+		Role res = service.DeleteRole(id);
+
+		return res;
 
 	}
 

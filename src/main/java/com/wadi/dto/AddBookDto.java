@@ -1,8 +1,9 @@
 package com.wadi.dto;
 
-import java.util.Base64;
-
 import org.springframework.web.multipart.MultipartFile;
+
+import com.wadi.bo.Author;
+import com.wadi.bo.Category;
 
 public class AddBookDto {
 
@@ -14,7 +15,9 @@ public class AddBookDto {
 
 	private String bookUrl;
 
-	private String author;
+	private Author author;
+
+	private Category category;
 
 	private String discription;
 
@@ -58,11 +61,11 @@ public class AddBookDto {
 		this.bookUrl = bookUrl;
 	}
 
-	public String getAuthor() {
+	public Author getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(String author) {
+	public void setAuthor(Author author) {
 		this.author = author;
 	}
 
@@ -104,6 +107,14 @@ public class AddBookDto {
 
 	public void setImgeContent(byte[] imgeContent) {
 		this.imgeContent = imgeContent;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 }

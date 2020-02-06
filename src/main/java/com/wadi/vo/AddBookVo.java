@@ -1,11 +1,14 @@
 package com.wadi.vo;
 
-import javax.persistence.Lob;
+import java.io.Serializable;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class AddBookVo {
-	
+import com.wadi.bo.Author;
+import com.wadi.bo.Category;
+
+public class AddBookVo implements Serializable {
+
 	private long id;
 
 	private String title;
@@ -14,10 +17,12 @@ public class AddBookVo {
 
 	private String bookUrl;
 
-	private String author;
-	
+	private Author author;
+
+	private Category category;
+
 	private String discription;
-	
+
 	private MultipartFile book;
 
 	private MultipartFile image;
@@ -58,11 +63,11 @@ public class AddBookVo {
 		this.bookUrl = bookUrl;
 	}
 
-	public String getAuthor() {
+	public Author getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(String author) {
+	public void setAuthor(Author author) {
 		this.author = author;
 	}
 
@@ -105,6 +110,13 @@ public class AddBookVo {
 	public void setImgfile(byte[] imgfile) {
 		this.imgfile = imgfile;
 	}
-	
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
 }
